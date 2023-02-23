@@ -1,0 +1,112 @@
+﻿@page "/Carousel"
+@using InfoVerse.Models
+@using InfoVerse.Services
+@inject ImageService ImageService
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<style type="text/css">
+
+    .bounceIn {
+        opacity: 0;
+        animation-delay: 0.5s;
+        animation-duration: 0.5s;
+        animation-name: bounceIn;
+        animation-fill-mode: forwards;
+    }
+
+    .bounceOut {
+        animation-duration: 0.5s;
+        animation-name: bounceOut;
+        animation-fill-mode: forwards;
+    }
+
+
+    .backInDown {
+        opacity: 0;
+        animation-delay: 0.5s;
+        animation-duration: 0.5s;
+        animation-name: backInDown;
+        animation-fill-mode: forwards;
+    }
+
+    .backOutDown {
+        animation-duration: 0.5s;
+        animation-name: backOutDown;
+        animation-fill-mode: forwards;
+    }
+
+    .rotateIn {
+        opacity: 0;
+        animation-delay: 0.5s;
+        animation-duration: 0.5s;
+        animation-name: rotateIn;
+        animation-fill-mode: forwards;
+    }
+
+    .rotateOut {
+        animation-duration: 0.5s;
+        animation-name: rotateOut;
+        animation-fill-mode: forwards;
+    }
+
+</style>
+
+<MudCarousel Class="mud-width-full" Style="height:400px;" TData="object" AutoCycle="true"  >
+
+
+    @foreach (var image in Images)
+    {
+        string animationEntrance;
+        string animationExit;
+
+        switch (image.TransitionType)
+        {
+            case "bounceInOut":
+                animationEntrance = "bounceIn";
+                animationExit = "bounceOut";
+                break;
+            case "backInOut":
+                animationEntrance = "backInDown";
+                animationExit = "backOutDown";
+                break;
+            case "bounceOut":
+                animationEntrance = "bounceIn";
+                animationExit = "bounceOut";
+                break;
+            case "rotateInOut":
+                animationEntrance = "rotateIn";
+                animationExit = "rotateOut";
+           break;
+                default:
+                animationEntrance = "bounceIn";
+                animationExit = "bounceOut";
+                break;
+
+
+
+
+        }
+        var slideDuration = TimeSpan.FromSeconds((double)@image.AutoCycleTime);
+
+        <MudCarouselItem Color="@Color.Primary" Transition="Transition.Custom" CustomTransitionEnter="@animationEntrance" CustomTransitionExit="@animationExit" AutoCycleDuration="@slideDuration">
+            <div class="d-flex justify-center">
+                <MudImage ObjectFit="ObjectFit.Fill"  Src="@image.imgUrl"  Elevation="25" Class="rounded-lg" />
+            </div>
+        </MudCarouselItem>
+    }
+    
+</MudCarousel>
+
+
+@code {
+    private List<ImageModel> Images { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Images = ImageService.GetAllImages();
+    }
+
+    private string AnimationEntrance = "bounceIn";
+    private string AnimationExit = "bounceOut";
+}

@@ -1,0 +1,72 @@
+﻿@using InfoVerse.Models
+@using InfoVerse.Services
+@using MudBlazor
+@inject ImageService ImageService
+
+@page "/ListImages"
+<MudText Style="margin-bottom: 30px" Align="Align.Left" Typo="Typo.h3">Image Management</MudText>
+
+<MudTable T="ImageModel" Items="@Images" Class="d-table">
+    <HeaderContent>
+        <MudTh>ID</MudTh>
+        <MudTh>Name</MudTh>
+        <MudTh>ImageURL</MudTh>
+        <MudTh>TransitionType</MudTh>
+        <MudTh>AutoCycleTime</MudTh>
+        <MudTh>Start Date</MudTh>
+        <MudTh>End Date</MudTh>
+        <MudTh>Active</MudTh>
+        <MudTh>Update</MudTh>
+        <MudTh>Delete</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>@context.Id</MudTd>
+        <MudTd>@(context.Name ?? "N/A")</MudTd>
+        <MudTd>@((context.imgUrl != null && context.imgUrl.Length > 50) ? context.imgUrl.Substring(0, 50) + "..." : context.imgUrl)</MudTd>
+        <MudTd>@(context.TransitionType ?? "N/A")</MudTd>
+        <MudTd>@context.AutoCycleTime s</MudTd>
+        <MudTd>@(context.StartDate.ToShortDateString() ?? "N/A")</MudTd>
+        <MudTd>@(context.EndDate.ToShortDateString() ?? "N/A")</MudTd>
+        <MudTd>
+            <MudSwitch Checked="@context.isActive" Color="Color.Primary" OnChange="UpdateActiveStatus(context.Id)" />
+        </MudTd>
+        <MudTd>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary">Update</MudButton>
+        </MudTd>
+        <MudTd>
+            <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="(e) => DeleteImage(Convert.ToInt32(context.Id))">Delete</MudButton>
+        </MudTd>
+    </RowTemplate>
+</MudTable>
+
+
+@code {
+    private List<ImageModel>? Images { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Images = ImageService.GetAllImages();
+    }
+
+
+    private void UpdateActiveStatus(int id)
+    {
+        ImageService.ChangeActiveStatus(id);
+    }
+
+    private void DeleteImage(int id)
+    {
+        ImageService.DeleteImage(id);
+        OnInitializedAsync();
+    }
+
+    private void UpdateImage(ImageModel image)
+    {
+
+    }
+    
+        
+
+
+}

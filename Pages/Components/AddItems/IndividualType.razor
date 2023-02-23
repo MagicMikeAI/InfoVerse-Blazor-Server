@@ -1,0 +1,32 @@
+﻿
+<MudCard Width="300px" Elevation="4">
+    <MudCardMedia Image=@ImageURL Height="320" />
+    <MudCardContent>
+        <MudText Typo="Typo.h5">@Title</MudText>
+        <MudText Typo="Typo.body1">@ShortDescription </MudText>
+        <MudText Typo="Typo.body2">@Description</MudText>
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Href=@Location Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Select</MudButton>
+
+    </MudCardActions>
+</MudCard>
+
+
+@code {
+    [Parameter]
+    public string ImageURL { get; set; }
+    [Parameter]
+    public string Title { get; set; }
+    [Parameter]
+    public string ShortDescription { get; set; }
+    [Parameter]
+    public string Description { get; set; }
+    [Parameter]
+    public string Location { get; set; }
+
+    private bool _processing = false;
+
+
+
+}

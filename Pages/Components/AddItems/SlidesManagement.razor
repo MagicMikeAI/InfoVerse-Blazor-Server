@@ -1,0 +1,49 @@
+﻿@using InfoVerse.Pages.Components
+@page "/SlidesManagement"
+<MudText Style="margin-bottom: 30px" Align="Align.Left" Typo="Typo.h2">Slides Management</MudText>
+
+
+<div Class="d-flex align-center justify-center ma-4">
+
+    <MudItem Class="py-8 px-10">
+        <IndividualType Title="Image Slide"
+             ShortDescription="Upload Imagages"
+             Description="Images that will be used in a Carousell with information relevant to students on our computing degrees.
+                                     Hereafter known as “Corridor carousel screens and are used generally for the big screens"
+             ImageURL="https://thumbs.dreamstime.com/b/d-rendering-d-illustration-night-futuristic-city-rain-cyberpunk-neon-lights-glowing-windows-neon-street-cyber-city-205182216.jpg"
+             Location="/SlidesManagement/ImageSlide" />
+    </MudItem>
+
+    <MudItem Class="py-8 px-10">
+        <IndividualType 
+            Title="Class Door"
+            ShortDescription="Current information for the room"
+            Description=" Which class is taking place now and next display drawn from the timetable, showing the start and end
+                            times, module name & code and lecturer for both for the current day." 
+
+            ImageURL="https://cdn.dribbble.com/users/648922/screenshots/15405832/media/572de1d643fc470a0d3b94f780ca03a7.png?compress=1&resize=400x300" 
+            Location="/WIP" />
+    </MudItem>
+
+    <MudItem Class="py-8 px-10">
+        <IndividualType 
+            Title="Custom Slide" 
+            ShortDescription="Generate Imagages"
+            Description="This is a component that will allow users to create images that will be later used in the Carousell containing information relevant to students on our computing degrees." 
+            ImageURL="https://cdn.dribbble.com/users/1626229/screenshots/15804939/media/f35530bfa2444aa2ed99aa560c4ea9b0.jpg?compress=1&resize=400x300"
+            Location="/WIP" />
+    </MudItem>
+
+    <MudItem Class="py-8 px-10">
+        <IndividualType 
+            Title="SlideShow" 
+            ShortDescription="Manage Slideshows"
+            Description="This is a component that will allow users to create images that will be later used in the Carousell containing information relevant to students on our computing degrees." 
+            ImageURL="https://img.freepik.com/premium-photo/colorful-cyberpunk-metaverse-city-background-concept-art-digital-painting_743201-738.jpg?w=2000"
+            Location="/WIP" />
+    </MudItem>
+    </div>
+
+@code {
+
+}

@@ -1,0 +1,92 @@
+﻿@page "/SlidesManagement/ImageSlide/{&id}"
+@using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
+@using InfoVerse.Models;
+@using InfoVerse.Services;
+@using MudBlazor
+@inject ImageService ImageService
+
+
+<MudGrid>
+    <MudItem xs="12" sm="7">
+        <MudPaper Class="pa-4">
+            <MudForm @ref="form" @bind-IsValid="@success" Model="@image" >
+
+                <MudTextField @bind-Value="image.Name" Class="pa-4 " T="string" Label="Name" Required="true" RequiredError="Name name is required!" />
+                <MudTextField @bind-Value="image.imgUrl"  Class="pa-4" T="string" Label="Image URL" Required="true" RequiredError="Image URL is required!" />
+                <MudNumericField @bind-Value="AutoCycleTime" Class="pa-4 " Required="true" Label="Slide Duration (seconds)" Variant="Variant.Text" Min="1" Max="100" />
+
+
+
+
+                <MudText Class="pt-4 pl-4 " Typo="Typo.subtitle2">Select Start/End date or leave empty for permanent</MudText>
+
+                <MudDatePicker Class="pa-4 " Label="Start Date" @bind-SelectedOption="CStartDate" />
+                <MudDatePicker Class="pa-4 " Label="End Date" @bind-SelectedOption="CEndDate" />
+                <MudText Class="pt-4 pl-4 " Typo="Typo.subtitle2">Select Transition Type</MudText>
+
+                <div class="d-flex pa-4 ">
+                    <MudRadioGroup T="string" @bind-SelectedOption="image.TransitionType" Required="true" RequiredError="Transition type is required!">
+                        <MudRadio Option="@("backInOut")">Back in/out</MudRadio>
+                        <MudRadio Option="@("FadeOut")">Fade Out</MudRadio>
+                        <MudRadio Option="@("bounceIn")">Bounce In</MudRadio>
+                        <MudRadio Option="@("bounceOut")">Bounce Out</MudRadio>
+                    </MudRadioGroup>
+
+
+                </div>
+
+   
+
+                <div class="d-flex align-center justify-space-between">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Class="ml-auto" @onclick="SaveData">Register Image</MudButton>
+                </div>
+            </MudForm>
+        </MudPaper>
+        
+    </MudItem>
+    <MudItem xs="12" sm="5">
+        <MudPaper Class="pa-4 mud-height-full">
+            <MudCardMedia Image="@image.imgUrl" Height="320" />
+
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+@code {
+    private ImageModel image = new ImageModel();
+    private int AutoCycleTime { get; set;} = 1;
+    DateTime? CStartDate { get; set; } = DateTime.Today;
+    DateTime? CEndDate { get; set; }
+
+
+    bool success;
+    MudForm form;
+
+
+    private async Task SaveData()
+    {
+
+
+        if (form.IsValid  )
+        {
+            if (CEndDate == null || CEndDate <= DateTime.Now)
+            {
+                image.EndDate = DateTime.Now.AddYears(10);
+            }
+
+            //var startDate = CStartDate;
+            image.StartDate = CStartDate.Value;
+            image.AutoCycleTime = AutoCycleTime;
+
+            ImageService.AddImage(image);
+
+            form.Reset();
+            image = new ImageModel();
+            CStartDate = DateTime.Today;
+            CEndDate = null;
+
+        }
+    }
+
+
+}
